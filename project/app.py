@@ -105,7 +105,7 @@ def photo_album():
 
 @app.route('/delete_photo/<int:photo_id>', methods=['POST'])
 def delete_photo(photo_id):
-    # Ваш код для видалення фото
+    
     return redirect(url_for('some_other_page'))
 
 @app.route('/some_other_page')
