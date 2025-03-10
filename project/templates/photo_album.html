@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фотоальбом</title>
+</head>
+<body class="page-not-home">
+    <!-- Основний контейнер -->
+    <div class="container">
+        <!-- Заголовок -->
+        <h2>Ваш фотоальбом</h2>
+
+        <!-- Формуляр для створення папки -->
+        <form action="{{ url_for('photo_album') }}" method="post">
+            <input type="text" name="folder_name" placeholder="Назва папки" required>
+            <button type="submit">Створити папку</button>
+        </form>
+
+        <!-- Список папок -->
+        <h3>Ваші папки:</h3>
+        <ul>
+            {% for folder in folders %}
+                <li><a href="{{ url_for('view_folder', folder_id=folder.id) }}">{{ folder.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        
+
+        <!-- Лінк для виходу -->
+        <a href="{{ url_for('logout') }}">Вийти</a>
+    </div>
+</body>
+</html>
