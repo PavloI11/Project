@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Папка: {{ folder.name }}</title>
+</head>
+<body class="page-not-home">
+    <h2>Папка: {{ folder.name }}</h2>
+
+    <!-- Форма для створення підпапки -->
+    <form action="{{ url_for('view_folder', folder_id=folder.id) }}" method="post">
+        <input type="text" name="folder_name" placeholder="Назва підпапки" required>
+        <button type="submit">Створити підпапку</button>
+    </form>
+
+    <form action="{{ url_for('delete_folder', folder_id=folder.id) }}" method="post" onsubmit="return confirm('Видалити цю папку разом із її вмістом?');">
+        <button type="submit" style="background-color: red; color: white;">Видалити папку</button>
+    </form>
+    
+
+    <h3>Підпапки:</h3>
+    <ul>
+        {% for subfolder in subfolders %}
+            <li><a href="{{ url_for('view_folder', folder_id=subfolder.id) }}">{{ subfolder.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- Форма для завантаження фото у вибрану папку -->
+    <h3>Завантажити фото:</h3>
+    <form action="{{ url_for('upload_photo') }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="folder_id" value="{{ folder.id }}">
+        <input type="file" name="photo" required>
+        <button type="submit">Завантажити фото</button>
+    </form>
+
+    <h3>Фото у цій папці:</h3>
+<div class="photo-gallery">
+    {% for photo in photos %}
+    <div class="photo-item">
+        <img src="{{ photo.filename }}" alt="Фото" width="150" onclick="openModal('{{ photo.filename }}')">
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Модальне вікно -->
+<div id="photoModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="fullSizeImage">
+</div>
+
+    <a href="{{ url_for('photo_album') }}">Назад</a>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
